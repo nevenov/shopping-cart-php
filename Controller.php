@@ -13,6 +13,9 @@ class Controller {
 
     public function showCart()
     {
+        echo "<pre>";
+        print_r($this->session);
+        echo "</pre>";
         require_once('layout/views/cart.php');
     }
 
@@ -29,7 +32,9 @@ class Controller {
 
     public function addToCart($id) 
     {   
-        // to do: add to cart
+        $cart = new ShoppingCart($this->session);
+        $cart->addToCart($id);
+
         return header("Location: " . self::BASE_URL . "?action=cart");
     }
 
@@ -61,7 +66,7 @@ class Controller {
         return header("Location: " . self::BASE_URL);
     }
 
-    
+
     public function logout() 
     {
         $login = new FakeLogin($this->session);
