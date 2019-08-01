@@ -4,6 +4,13 @@ class Controller {
 
     const BASE_URL = 'http://localhost/lessons/paypal/shopping-cart/';
 
+
+    public function __construct(&$session)
+    {
+        $this->session = &$session;
+    }
+
+
     public function showCart()
     {
         require_once('layout/views/cart.php');
@@ -46,17 +53,31 @@ class Controller {
         return header("Location: " . self::BASE_URL . "?action=cart");
     }
 
+    
     public function login() 
     {
-        // to do: login
+        $login = new FakeLogin($this->session);
+        $login->login();
         return header("Location: " . self::BASE_URL);
     }
 
+    
     public function logout() 
     {
-        // to do: logout
+        $login = new FakeLogin($this->session);
+        $login->logout();
         return header("Location: " . self::BASE_URL);
     }
+
+
+    public function createPayment() 
+    {
+        if(!isset($this->session['logged_in'])) {
+            return header("Location: " . self::BASE_URL);
+        }
+    }
+
+
 
 }
 

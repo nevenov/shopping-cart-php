@@ -2,10 +2,10 @@
 
 class Router {
 
-    public function __construct($get)
+    public function __construct($get, $post, &$session)
     {
 
-        $controller = new Controller();
+        $controller = new Controller($session);
 
         if (isset($get['action'])) {
             
@@ -29,6 +29,10 @@ class Router {
 
                 case 'update-quantities':
                     $controller->updateQuantities($post);
+                    break;
+
+                case 'create-payment':
+                    $controller->createPayment();
                     break;
 
                 case 'login':

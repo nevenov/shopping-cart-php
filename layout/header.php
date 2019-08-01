@@ -14,7 +14,14 @@
 
 <body>
     <div class="mt-5 container">
+
+        <?php if(isset($session['logged_in'])): ?>
+        <span class="float-right">&nbsp;Logged in as <?=$session['name']?> <a href="?action=logout">logout</a> </span>
+        <?php else: ?>
         <span class="float-right">&nbsp;You are not logged in <a href="?action=login">login</a> </span>
+        <?php endif; ?>
+
+        
         <span class="float-right"><a href="?action=cart">Your cart (4)</a> </span>
         <h1><span class="text-info">SUPER</span> <span class="text-danger">SHOP</span></h1>
         <p class="text-success">The best online store</p>

@@ -32,7 +32,27 @@ $database = [
             'price'=>600,
             'url72'=>'http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/72/Devices-video-television-icon.png',
             'url256'=>'http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/256/Devices-video-television-icon.png'
-        ]
+        ],
+
+        // 4 => [
+        //     'id'=>4,
+        //     'name'=>'TV',
+        //     'subname'=>'by Panasonic',
+        //     'description'=>'The best TV ever made by Panasonic.',
+        //     'price'=>600,
+        //     'url72'=>'http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/72/Devices-video-television-icon.png',
+        //     'url256'=>'http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/256/Devices-video-television-icon.png'
+        // ],
+
+        // 5 => [
+        //     'id'=>5,
+        //     'name'=>'TV',
+        //     'subname'=>'by Panasonic',
+        //     'description'=>'The best TV ever made by Panasonic.',
+        //     'price'=>600,
+        //     'url72'=>'http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/72/Devices-video-television-icon.png',
+        //     'url256'=>'http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/256/Devices-video-television-icon.png'
+        // ]
 
     ] 
 
