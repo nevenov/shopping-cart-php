@@ -13,9 +13,8 @@ class Controller {
 
     public function showCart()
     {
-        echo "<pre>";
-        print_r($this->session);
-        echo "</pre>";
+        $cart_products = $this->session['cart'] ?? [];
+        $total_price = $this->session['cart_data']['total_price'] ?? 0;
         require_once('layout/views/cart.php');
     }
 
@@ -48,6 +47,9 @@ class Controller {
 
     public function checkout()
     {
+        $cart_products = $this->session['cart'] ?? [];
+        $total_price = $this->session['cart_data']['total_price'] ?? 0;
+        $total_amount = $this->session['cart_data']['total_amount'] ?? 0;
         require_once('layout/views/checkout.php');
     }
 
