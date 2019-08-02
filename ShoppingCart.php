@@ -57,4 +57,36 @@ class ShoppingCart {
     }
 
 
+    public function updateQuantities($post) 
+    {
+        foreach ($post['amounts'] as $product => $amount) {
+            $amount = (int) $amount;
+            if ($amount<0) { $amount = 0; }
+
+            $this->session['cart'][$product]['amount'] = $amount;
+
+            $this->session['cart'][$product]['total_price'] = $amount * $this->session['cart'][$product]['price'];
+        }
+
+        $this->updateCart();
+    }
+
+
+    public function removeFromCart($id) 
+    {
+        $this->session['cart'][$id] = null;
+        unset($this->session['cart'][$id]);
+
+        $this->updateCart();
+    }
+
+    public function deleteCart($id) 
+    {
+        $this->session['cart'] = null;
+        $this->session['cart_data'] = null;
+        unset($this->session['cart']);
+        unset($this->session['cart_data']);
+    }
+
+
 }

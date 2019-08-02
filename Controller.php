@@ -40,7 +40,9 @@ class Controller {
 
     public function removeFromCart($id) 
     {
-        // to do: remove from cart
+        $cart = new ShoppingCart($this->session);
+        $cart->removeFromCart($id);
+
         return header("Location: " . self::BASE_URL . "?action=cart");
     }
 
@@ -56,7 +58,9 @@ class Controller {
 
     public function updateQuantities($post) 
     {
-        // to do: update quantities
+        $cart = new ShoppingCart($this->session);
+        $cart->updateQuantities($post);       
+
         return header("Location: " . self::BASE_URL . "?action=cart");
     }
 
