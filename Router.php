@@ -34,6 +34,10 @@ class Router {
                 case 'create-payment':
                     $controller->createPayment();
                     break;
+                
+                case 'execute-payment':
+                    $controller->executePayment();
+                    break;
 
                 case 'login':
                     $controller->login();

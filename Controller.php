@@ -156,7 +156,96 @@ class Controller {
 
         $approvalUrl = $payment->getApprovalLink();
 
-        print_r($approvalUrl);
+        //this will redirect our shopping cart to Paypal payment page. Write print_r($approvalUrl) to see the URL
+        return header("Location: " . $approvalUrl);
+        
+    }
+
+
+    public function executePayment() 
+    {
+        if(!isset($this->session['logged_in'])) {
+            return header("Location: " . self::BASE_URL);
+        }
+
+        // once again we include the paypal rest-api-sdk-php for the payment execution
+        require __DIR__ . "/vendor/autoload.php";
+
+        // In order to communicate with Paypal API we need to br authenticated with special credentials:
+        $apiContext = new \PayPal\Rest\ApiContext(
+            new \PayPal\Auth\OAuthTokenCredential(
+                'AUA0vvs7vganK5I5g3EAJAgtpxxlt4WzlOK9MuMHDavYnWux5XkocZ2FaOfbzNBODM5kDf2LbeknZ5It',     // ClientID
+                'EM-6C_MAmtbve4UrBMNib7tRfQEl-0spuGYubHhSUQK9fLWqa6R6p1Y1ongtE7VnXj29Mu8gFLfVARD3'      // ClientSecret
+            )
+        );
+
+        $paymentId = $_GET['paymentId'];
+        $payment = PayPal\Api\Payment::get($paymentId, $apiContext);
+
+        $execution = new PayPal\Api\PaymentExecution();
+        $execution->setPayerId($_GET['PayerID']);
+
+        $transaction = new PayPal\Api\Transaction();
+        $amount = new PayPal\Api\Amount();
+        $details = new PayPal\Api\Details();
+
+        $details->setShipping(0)
+            ->setTax(0)
+            ->setSubtotal($this->session['cart_data']['total_price']);
+
+        $amount->setCurrency('USD');
+
+        $amount->setTotal($this->session['cart_data']['total_price']);
+
+        $amount->setDetails($details);
+
+        $transaction->setAmount($amount);
+
+        $execution->addTransaction($transaction);
+
+        $result = $payment->execute($execution, $apiContext);
+
+        $result = $result->toJSON();
+
+        $result = json_decode($result);
+
+        // if the transaction is successfull
+        if ($result->state === 'approved') {
+
+            // // show all the payment info object
+            // echo "<pre>";
+            // print_r($result);    
+            // echo "<pre>";
+            
+            // // show the payer details
+            // echo $result->payer->payer_info->email; echo "<br>";
+            // echo $result->payer->payer_info->first_name; echo "<br>";
+            // echo $result->payer->payer_info->last_name; echo "<br>";
+            // print_r($result->payer->payer_info->shipping_address) ; echo "<br>";
+            // echo $result->transactions[0]->amount->total; echo "<br>";
+
+            // echo "<pre>";
+            // print_r($result->transactions[0]->item_list->items);    
+            // echo "<pre>";
+
+            // here we make sql query and save the order into the database
+            // $mysqli = new mysqli("localhost", "my_user", "my_password", "world");
+            // $sql =  "INSERT INTO table_orders (email, first_name, last_name, ...)
+            //          VALUES (value1, value2, value3, ...); 
+            // if ($result = $mysqli->query($sql)) {
+            //    printf("Select returned %d rows.\n", $result->num_rows);
+            //
+            //    /* free result set */
+            //   $result->close();
+            // }
+
+            $cart = new ShoppingCart($this->session);
+            $cart->deleteCart();
+
+        }
+
+        return header("Location: " . self::BASE_URL);
+
     }
 
 

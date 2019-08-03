@@ -80,7 +80,7 @@ class ShoppingCart {
         $this->updateCart();
     }
 
-    public function deleteCart($id) 
+    public function deleteCart() 
     {
         $this->session['cart'] = null;
         $this->session['cart_data'] = null;
